@@ -25,7 +25,7 @@ app.#whatever your http req is#('/#address of whatever (e.g. /getUserTweets)#', 
 
 */
 
-app.post("/createUser", (req, res) => {
+app.post("/createUser", async (req, res) => {
   const newUser = new User({
     username: req.body.username,
     password: req.body.password,
@@ -34,7 +34,7 @@ app.post("/createUser", (req, res) => {
   return res.status(200).json({ newUser });
 });
 
-app.get("/loginUser", async (req, res) => {
+app.post("/loginUser", async (req, res) => {
   const username = req.body.username;
   const password = req.body.password;
   const cur = await User.findOne({ username: username }).catch((err) =>
@@ -46,6 +46,17 @@ app.get("/loginUser", async (req, res) => {
   res.status(200).json({ valid: validLogin });
 });
 
+app.delete("/deleteAllUsers", (req, res) => {
+  User.deleteMany({})
+    .then((data) => res.status(200).json(data))
+    .catch((err) => console.log(err));
+});
+
+app.get("/getAllUsers", (req, res) => {
+  User.find({})
+    .then((data) => res.status(200).json(data))
+    .catch((err) => console.log(err));
+});
 app.listen(5000, () => {
   console.log("backend connnected to port 5000");
 });

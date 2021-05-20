@@ -13,7 +13,7 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  padding: 15px;
+  padding: 25px;
   text-align: center;
   background-color: white;
   border-radius: 10px;
@@ -22,14 +22,14 @@
 
 .title-text {
   font-size: 50px;
-  font-weight: 700;
+  font-weight: 600;
   color: #449bce;
   margin: 0;
 }
 
 .input-field {
-  height: 50px;
-  width: 300px;
+  height: 45px;
+  width: 250px;
   margin: 20px 0px 5px 0px;
   padding-left: 10px;
   font-size: 25px;
@@ -38,7 +38,7 @@
 
 .submission-button {
   padding: 0%;
-  width: 170px;
+  width: 200px;
   height: 50px;
   margin-bottom: 10px;
   margin-top: 25px;
