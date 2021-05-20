@@ -1,9 +1,15 @@
-import react from "react";
+import React from "react";
 
 const LandingPage = () => {
   return (
-    <div>
-      <a href="/login">Login</a>
+    <div
+      style={{
+        display: "flex",
+        justifyContent: "center",
+      }}
+    >
+      <a href="/login">Login</a> <br />
+      <a href="/signup">Signup</a>
     </div>
   );
 };

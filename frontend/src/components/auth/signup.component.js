@@ -1,10 +1,11 @@
 import React, { Component } from "react";
 import "./auth.css";
 
-export default class Login extends Component {
+export default class Signup extends Component {
   constructor() {
     super();
     this.state = {
+      email: "",
       username: "",
       password: "",
     };
@@ -18,7 +19,6 @@ export default class Login extends Component {
       [name]: value,
     });
   }
-  //incomplete. needs to do something if logged in vs not
   onSubmit() {
     const reqInfo = {
       method: "POST",
@@ -31,7 +31,7 @@ export default class Login extends Component {
       },
     };
     const makeRequest = async (reqInfo) => {
-      const url = "http://localhost:5000/loginUser";
+      const url = "http://localhost:5000/createUser";
       await fetch(url, reqInfo)
         .then((data) => console.log(data.json()))
         .catch((err) => console.log(err));
@@ -42,7 +42,16 @@ export default class Login extends Component {
     return (
       <div className="auth-wrapper">
         <div className="form-wrapper">
-          <p className="title-text">SPORTZ</p>
+          <p className="title-text">Get Started!</p>
+
+          <input
+            className="input-field"
+            type="text"
+            name="email"
+            value={this.state.email}
+            onChange={this.handleChange}
+            placeholder="Email"
+          />
           <input
             className="input-field"
             type="text"
@@ -60,9 +69,8 @@ export default class Login extends Component {
             placeholder="Password"
           />
           <button className="submission-button" onClick={this.onSubmit}>
-            Log In
+            Sign Up
           </button>
-          <a href="/">Forgot your password?</a>
         </div>
       </div>
     );
