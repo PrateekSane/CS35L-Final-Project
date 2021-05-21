@@ -1,5 +1,6 @@
 import "./App.css";
 import Login from "./components/auth/login.component";
+import Home from "./components/general/home.component";
 import Signup from "./components/auth/signup.component";
 import Navbar from "./components/general/navbar.component";
 import { BrowserRouter as Router, Route } from "react-router-dom";
@@ -11,6 +12,7 @@ function App() {
         <Route exact path="/" component={LandingPage} />
         <Route path="/login" component={Login} />
         <Route path="/signup" component={Signup} />
+        <Route path="/home" component={Home} />
       </Router>
     </div>
   );
