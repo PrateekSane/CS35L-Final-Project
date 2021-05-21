@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import AuthService from '../../services/AuthService';
 import "./auth.css";
 
 export default class Signup extends Component {
@@ -19,25 +20,21 @@ export default class Signup extends Component {
       [name]: value,
     });
   }
-  onSubmit() {
-    const reqInfo = {
-      method: "POST",
-      body: JSON.stringify({
-        username: this.state.username,
-        password: this.state.password,
-      }),
-      headers: {
-        "Content-type": "application/json",
-      },
-    };
-    const makeRequest = async (reqInfo) => {
-      const url = "http://localhost:5000/createUser";
-      await fetch(url, reqInfo)
-        .then((data) => console.log(data.json()))
-        .catch((err) => console.log(err));
-    };
-    makeRequest(reqInfo);
+
+  async makeRequest(username, password) {
+    try {
+      let data = await AuthService.signup(username, password);
+      console.log(data);
+      this.props.history.push('/login');
+    } catch (err) {
+        console.log(err);
+      }
   }
+
+  onSubmit() {
+    this.makeRequest(this.state.username, this.state.password);
+  }
+
   render() {
     return (
       <div className="auth-wrapper">

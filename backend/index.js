@@ -26,33 +26,47 @@ app.#whatever your http req is#('/#address of whatever (e.g. /getUserTweets)#', 
 */
 
 app.post("/createUser", async (req, res) => {
+  // error checking
+  const { username, password } = req.body;
+
+  if(!username || !password)
+    return res.status(400).json('Required username / password not in body');
+
   const newUser = new User({
-    username: req.body.username,
-    password: req.body.password,
+    username: username,
+    password: password,
   });
+
   newUser.save().catch((err) => res.status(400).json(err));
+
+  console.log(`Successfully created ${newUser}`);
   return res.status(200).json({ newUser });
 });
 
 app.post("/loginUser", async (req, res) => {
-  const username = req.body.username;
-  const password = req.body.password;
+  // error checking
+  const { username, password } = req.body;
+
+  if(!username || !password)
+    return res.status(400).json('Required username / password not in body');
+
   const cur = await User.findOne({ username: username }).catch((err) =>
-    res.status(401).json("user doesnt exist" + err)
+    res.status(401).json("user doesn't exist" + err)
   );
   let validLogin;
   console.log(cur);
   password === cur.password ? (validLogin = true) : (validLogin = false);
+  console.log(validLogin)
   res.status(200).json({ valid: validLogin });
 });
 
-app.delete("/deleteAllUsers", (req, res) => {
+app.delete("/deleteAllUsers", async(req, res) => {
   User.deleteMany({})
     .then((data) => res.status(200).json(data))
     .catch((err) => console.log(err));
 });
 
-app.get("/getAllUsers", (req, res) => {
+app.get("/getAllUsers", async(req, res) => {
   User.find({})
     .then((data) => res.status(200).json(data))
     .catch((err) => console.log(err));

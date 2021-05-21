@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import AuthService from '../../services/AuthService';
 import "./auth.css";
 
 export default class Login extends Component {
@@ -18,26 +19,22 @@ export default class Login extends Component {
       [name]: value,
     });
   }
-  //incomplete. needs to do something if logged in vs not
-  onSubmit() {
-    const reqInfo = {
-      method: "POST",
-      body: JSON.stringify({
-        username: this.state.username,
-        password: this.state.password,
-      }),
-      headers: {
-        "Content-type": "application/json",
-      },
-    };
-    const makeRequest = async (reqInfo) => {
-      const url = "http://localhost:5000/loginUser";
-      await fetch(url, reqInfo)
-        .then((data) => console.log(data.json()))
-        .catch((err) => console.log(err));
-    };
-    makeRequest(reqInfo);
+
+  async makeRequest(username, password) {
+    console.log('here');
+    try {
+      let data = await AuthService.login(username, password);
+      console.log(data);
+      this.props.history.push('/home');
+    } catch (err) {
+        console.log(err);
+      }
   }
+
+  onSubmit() {
+    this.makeRequest(this.state.username, this.state.password);
+  }
+
   render() {
     return (
       <div className="auth-wrapper">
@@ -59,6 +56,7 @@ export default class Login extends Component {
             onChange={this.handleChange}
             placeholder="Password"
           />
+          <a href="/signup">Signup</a>
           <button className="submission-button" onClick={this.onSubmit}>
             Log In
           </button>
