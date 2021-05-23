@@ -1,14 +1,12 @@
-import React, { Component } from "react";
-import AuthService from "../../services/AuthService";
-import "./auth.css";
-
-export default class Signup extends Component {
+import React from "react";
+import "./createpost.css";
+class CreatePost extends React.Component {
   constructor() {
     super();
     this.state = {
-      email: "",
-      username: "",
-      password: "",
+      body: "",
+      title: "",
+      tags: "",
     };
     this.handleChange = this.handleChange.bind(this);
     this.onSubmit = this.onSubmit.bind(this);
@@ -22,6 +20,7 @@ export default class Signup extends Component {
   }
 
   async makeRequest(username, password) {
+    /*
     try {
       let data = await AuthService.signup(username, password);
       console.log(data);
@@ -29,48 +28,44 @@ export default class Signup extends Component {
     } catch (err) {
       console.log(err);
     }
+    */
   }
 
   onSubmit() {
-    this.makeRequest(this.state.username, this.state.password);
+    //this.makeRequest();
   }
 
   render() {
     return (
-      <div className="auth-wrapper">
-        <div className="form-wrapper">
-          <p className="title-text">Get Started!</p>
+      <div className="create-post-page">
+        <div className="create-post-wrapper">
+          <p className="title-text">Share Your Thoughts!</p>
+          <p>Name Your Post</p>
+          <input
+            className="input-field"
+            type="text"
+            name="title"
+            value={this.state.title}
+            onChange={this.handleChange}
+            placeholder="Title"
+          />
+          <p>What would you like to talk about?</p>
+          <input
+            className="input-field"
+            type="text"
+            name="body"
+            value={this.state.body}
+            onChange={this.handleChange}
+            placeholder="Body"
+          />
 
-          <input
-            className="input-field"
-            type="text"
-            name="email"
-            value={this.state.email}
-            onChange={this.handleChange}
-            placeholder="Email"
-          />
-          <input
-            className="input-field"
-            type="text"
-            name="username"
-            value={this.state.username}
-            onChange={this.handleChange}
-            placeholder="Username"
-          />
-          <input
-            className="input-field"
-            type="text"
-            name="password"
-            value={this.state.password}
-            onChange={this.handleChange}
-            placeholder="Password"
-          />
-          <a href="/login">Already have an account?</a>
           <button className="submission-button" onClick={this.onSubmit}>
-            Sign Up
+            Post
           </button>
         </div>
       </div>
     );
   }
 }
+
+export default CreatePost;
