@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import AuthService from '../../services/AuthService';
+import AuthService from "../../services/AuthService";
 import "./auth.css";
 
 export default class Login extends Component {
@@ -21,14 +21,14 @@ export default class Login extends Component {
   }
 
   async makeRequest(username, password) {
-    console.log('here');
+    console.log("here");
     try {
       let data = await AuthService.login(username, password);
       console.log(data);
-      this.props.history.push('/home');
+      this.props.history.push("/home");
     } catch (err) {
-        console.log(err);
-      }
+      console.log(err);
+    }
   }
 
   onSubmit() {
@@ -56,7 +56,7 @@ export default class Login extends Component {
             onChange={this.handleChange}
             placeholder="Password"
           />
-          <a href="/signup">Signup</a>
+          <a href="/signup">Need an account?</a>
           <button className="submission-button" onClick={this.onSubmit}>
             Log In
           </button>
