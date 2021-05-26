@@ -65,7 +65,7 @@ export default class Signup extends Component {
             onChange={this.handleChange}
             placeholder="Password"
           />
-          <a href="/login">Already have an account?</a>
+          <a href="/login">Already have an account? Login</a>
           <button className="submission-button" onClick={this.onSubmit}>
             Sign Up
           </button>

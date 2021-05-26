@@ -57,7 +57,7 @@ app.post("/loginUser", async (req, res) => {
   console.log(cur);
   password === cur.password ? (validLogin = true) : (validLogin = false);
   console.log(validLogin)
-  res.status(200).json({ valid: validLogin });
+  res.status(200).json(cur);
 });
 
 app.delete("/deleteAllUsers", async(req, res) => {
