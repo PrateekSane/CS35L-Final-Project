@@ -26,17 +26,41 @@ export default class Login extends Component {
   async makeRequest(username, password) {
     try {
       let data = await AuthService.login(username, password);
-      this.context.dispatch({
-        type: 'SET_USER',
-        user: data,
-      });
-      this.props.history.push("/");
+      if(data === "user doesn't exist") {
+        alert('Username not found');
+        this.setState({
+          username: "",
+          password: "",
+        });
+      }
+      else if(data === "incorrect password") {
+        alert('Incorrect password');
+        this.setState({
+          username: "",
+          password: "",
+        });
+      }
+      else {
+        this.context.dispatch({
+          type: 'SET_USER',
+          user: data,
+        });
+        this.props.history.push("/");
+      }
     } catch (err) {
       console.log(err);
     }
   }
 
   onSubmit() {
+    if(!this.state.username) {
+      alert('Please enter your username.')
+      return;
+    }
+    if(!this.state.password) {
+      alert('Please enter your password.')
+      return;
+    }
     this.makeRequest(this.state.username, this.state.password);
   }
 
