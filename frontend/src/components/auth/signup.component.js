@@ -24,14 +24,32 @@ export default class Signup extends Component {
   async makeRequest(username, password) {
     try {
       let data = await AuthService.signup(username, password);
-      console.log(data);
-      this.props.history.push("/login");
+      if(data === "Username already exists") {
+        alert('Username is already taken. Please choose another username.');
+        this.setState({
+          username: "",
+        });
+      }
+      else
+        this.props.history.push("/login");
     } catch (err) {
       console.log(err);
     }
   }
 
   onSubmit() {
+    if(!this.state.email) {
+      alert('Please enter your email.')
+      return;
+    }
+    if(!this.state.username) {
+      alert('Please enter your username.')
+      return;
+    }
+    if(!this.state.password) {
+      alert('Please enter your password.')
+      return;
+    }
     this.makeRequest(this.state.username, this.state.password);
   }
 
@@ -65,7 +83,7 @@ export default class Signup extends Component {
             onChange={this.handleChange}
             placeholder="Password"
           />
-          <a href="/login">Already have an account?</a>
+          <a href="/login">Already have an account? Login</a>
           <button className="submission-button" onClick={this.onSubmit}>
             Sign Up
           </button>

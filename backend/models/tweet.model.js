@@ -27,6 +27,7 @@ const tweet = new schema(
   },
   {
     timestamps: true,
+
   }
 );
 

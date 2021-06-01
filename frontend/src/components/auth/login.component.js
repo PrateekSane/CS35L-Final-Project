@@ -1,8 +1,11 @@
 import React, { Component } from "react";
+import { Ctx } from '../StateProvider';
 import AuthService from "../../services/AuthService";
 import "./auth.css";
 
 export default class Login extends Component {
+  static contextType = Ctx;
+
   constructor() {
     super();
     this.state = {
@@ -21,17 +24,43 @@ export default class Login extends Component {
   }
 
   async makeRequest(username, password) {
-    console.log("here");
     try {
       let data = await AuthService.login(username, password);
-      console.log(data);
-      this.props.history.push("/home");
+      if(data === "user doesn't exist") {
+        alert('Username not found');
+        this.setState({
+          username: "",
+          password: "",
+        });
+      }
+      else if(data === "incorrect password") {
+        alert('Incorrect password');
+        this.setState({
+          username: "",
+          password: "",
+        });
+      }
+      else {
+        this.context.dispatch({
+          type: 'SET_USER',
+          user: data,
+        });
+        this.props.history.push("/");
+      }
     } catch (err) {
       console.log(err);
     }
   }
 
   onSubmit() {
+    if(!this.state.username) {
+      alert('Please enter your username.')
+      return;
+    }
+    if(!this.state.password) {
+      alert('Please enter your password.')
+      return;
+    }
     this.makeRequest(this.state.username, this.state.password);
   }
 
@@ -39,7 +68,7 @@ export default class Login extends Component {
     return (
       <div className="auth-wrapper">
         <div className="form-wrapper">
-          <p className="title-text">SPORTZ</p>
+          <p><a className="title-text" href='/'>SPORTZ</a></p>
           <input
             className="input-field"
             type="text"
@@ -56,7 +85,7 @@ export default class Login extends Component {
             onChange={this.handleChange}
             placeholder="Password"
           />
-          <a href="/signup">Need an account?</a>
+          <a href="/signup">Need an account? Signup</a>
           <button className="submission-button" onClick={this.onSubmit}>
             Log In
           </button>

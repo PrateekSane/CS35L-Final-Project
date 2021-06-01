@@ -5,16 +5,21 @@ import Signup from "./components/auth/signup.component";
 import Navbar from "./components/general/navbar.component";
 import CreatePost from "./components/posts/createPost.component";
 import { BrowserRouter as Router, Route } from "react-router-dom";
+import { useContext } from 'react';
+import { Ctx, StateProvider } from "./components/StateProvider";
+
 function App() {
   return (
     <div className="App">
-      <Router>
-        <Route exact path="/" component={Navbar} />
-        <Route exact path="/" component={Home} />
-        <Route path="/login" component={Login} />
-        <Route path="/signup" component={Signup} />
-        <Route path="/createPost" component={CreatePost} />
-      </Router>
+      <StateProvider>
+        <Router>
+          <Route exact path="/" component={Navbar} />
+          <Route exact path="/" component={Home} />
+          <Route path="/login" component={Login} />
+          <Route path="/signup" component={Signup} />
+          <Route path="/createPost" component={CreatePost} />
+        </Router>
+      </StateProvider>
     </div>
   );
 }
