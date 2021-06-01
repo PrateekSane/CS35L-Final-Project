@@ -79,16 +79,18 @@ app.get("/getAllUsers", async (req, res) => {
     .catch((err) => console.log(err));
 });
 app.post("/createTweet", async (req, res) => {
-  const newTweet = new Tweet({
+  const newTweet = await new Tweet({
     title: req.body.title,
     body: req.body.body,
     tags: req.body.tags,
   });
   newTweet.save().catch((err) => res.status(401).json(err));
-  User.findOne({ _id: req.body.userId })
-    .then((user) => user.update({ tweets: user.tweets.push(newTweet._id) }))
+  User.findOneAndUpdate(
+    { _id: req.body.userId },
+    { $push: { tweets: newTweet._id } }
+  )
+    .then((user) => res.status(200).json(user))
     .catch((err) => res.status(400).json(err));
-  return res.status(200).json({ newTweet });
 });
 
 app.get("/getAllTweets", async (req, res) => {
