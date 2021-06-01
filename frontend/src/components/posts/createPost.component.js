@@ -27,7 +27,7 @@ class CreatePost extends React.Component {
       tags: this.state.tag,
       userId: localStorage.getItem('userID')
     };
-
+    console.log(data.userId);
  
       axios.post('http://localhost:5000/createTweet', {data})
       .then(res => {
