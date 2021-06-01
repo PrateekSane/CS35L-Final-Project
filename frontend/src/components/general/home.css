@@ -1,0 +1,28 @@
+.card {
+    width: 70%;
+    display: flex;
+    flex-direction: column;
+    border: 3px lightblue solid;
+    border-radius: 15px;
+    padding: 10px;
+    margin: 10px;
+}
+
+.header {
+    height: 30%;
+    color: black;
+    text-align: center;
+}
+
+
+  .tag-button {
+    background-color: #449bce;
+    color: white;
+    border: none;
+    border-radius: 10%;
+    height: 40px;
+    width: 90px;
+    margin: 5px;
+    cursor: pointer;
+    padding: 5px;
+  }
