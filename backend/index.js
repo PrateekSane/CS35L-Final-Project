@@ -24,13 +24,13 @@ app.#whatever your http req is#('/#address of whatever (e.g. /getUserTweets)#', 
 })
 
 */
-
+//START OF ROUTES
 app.post("/createUser", async (req, res) => {
   // error checking
   const { username, password } = req.body;
 
-  if(!username || !password)
-    return res.status(400).json('Required username / password not in body');
+  if (!username || !password)
+    return res.status(400).json("Required username / password not in body");
 
   const cur = await User.findOne({ username: username })
   if (cur)
@@ -51,8 +51,8 @@ app.post("/loginUser", async (req, res) => {
   // error checking
   const { username, password } = req.body;
 
-  if(!username || !password)
-    return res.status(400).json('Required username / password not in body');
+  if (!username || !password)
+    return res.status(400).json("Required username / password not in body");
 
   const cur = await User.findOne({ username: username })
 
@@ -62,21 +62,36 @@ app.post("/loginUser", async (req, res) => {
   let validLogin;
   console.log(cur);
   password === cur.password ? (validLogin = true) : (validLogin = false);
+
   console.log(validLogin)
   validLogin ? res.status(200).json(cur) : res.status(200).json("incorrect password");
+
 });
 
-app.delete("/deleteAllUsers", async(req, res) => {
+app.delete("/deleteAllUsers", async (req, res) => {
   User.deleteMany({})
     .then((data) => res.status(200).json(data))
     .catch((err) => console.log(err));
 });
 
-app.get("/getAllUsers", async(req, res) => {
+app.get("/getAllUsers", async (req, res) => {
   User.find({})
-    .then((data) => res.status(200).json(data))
+    .then((data) => console.log(data))
     .catch((err) => console.log(err));
 });
+app.post("/createTweet", async (req, res) => {
+  const newTweet = new Tweet({
+    title: req.body.title,
+    body: req.body.body,
+    tags: req.body.tags,
+  });
+  newTweet.save().catch((err) => res.status(401).json(err));
+  User.findOne({ _id: req.body.userId })
+    .then((user) => user.update({ tweets: user.tweets.push(newTweet._id) }))
+    .catch((err) => res.status(400).json(err));
+  return res.status(200).json({ newTweet });
+});
+
 
 app.get("/getAllTweets", async(req, res) => {
     Tweet.find({})
