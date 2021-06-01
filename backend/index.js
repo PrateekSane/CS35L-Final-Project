@@ -87,7 +87,7 @@ app.post("/createTweet", async (req, res) => {
   });
   newTweet.save().catch((err) => res.status(401).json(err));
   User.findOneAndUpdate(
-    { _id: req.body.userId },
+    { _id: req.body.data.userId },
     { $push: { tweets: newTweet._id } }
   )
     .then((user) => res.status(200).json(user))
