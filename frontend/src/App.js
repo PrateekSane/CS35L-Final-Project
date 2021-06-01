@@ -5,6 +5,7 @@ import Signup from "./components/auth/signup.component";
 import Navbar from "./components/general/navbar.component";
 import CreatePost from "./components/posts/createPost.component";
 import Profile from "./components/general/profile.component";
+import Search from "./components/general/search.component";
 import { BrowserRouter as Router, Route } from "react-router-dom";
 import { useContext } from "react";
 import { Ctx, StateProvider } from "./components/StateProvider";
@@ -20,6 +21,7 @@ function App() {
           <Route path="/signup" component={Signup} />
           <Route path="/createPost" component={CreatePost} />
           <Route path="/profile" component={Profile} />
+          <Route path="/search" component={Search} />
         </Router>
       </StateProvider>
     </div>
