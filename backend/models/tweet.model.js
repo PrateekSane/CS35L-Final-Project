@@ -23,6 +23,7 @@ const tweet = new schema(
     tags: {
       type: String,
       required: true,
+      default: "No Tag"
     },
   },
   {
