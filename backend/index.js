@@ -79,10 +79,11 @@ app.get("/getAllUsers", async (req, res) => {
     .catch((err) => console.log(err));
 });
 app.post("/createTweet", async (req, res) => {
+  console.log(req.body);
   const newTweet = await new Tweet({
-    title: req.body.title,
-    body: req.body.body,
-    tags: req.body.tags,
+    title: req.body.data.title,
+    body: req.body.data.body,
+    tags: req.body.data.tags,
   });
   newTweet.save().catch((err) => res.status(401).json(err));
   User.findOneAndUpdate(
