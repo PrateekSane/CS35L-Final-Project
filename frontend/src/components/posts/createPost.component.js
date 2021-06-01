@@ -1,5 +1,7 @@
 import React from "react";
 import "./createpost.css";
+import axios from 'axios';
+
 class CreatePost extends React.Component {
   constructor() {
     super();
@@ -18,16 +20,20 @@ class CreatePost extends React.Component {
       [name]: value,
     });
   }
-  async makeRequest(username, password) {
-    try {
-      /* 
-      let data = await AuthService.signup(username, password);
-      console.log(data);
-      this.props.history.push("/login");
-*/
-    } catch (err) {
-      console.log(err);
-    }
+  async makeRequest() {
+    const data = {
+      title: this.state.title,
+      body: this.state.body,
+      tags: this.state.tag,
+      userId: localStorage.getItem('userID')
+    };
+
+ 
+      axios.post('http://localhost:5000/createTweet', {data})
+      .then(res => {
+        console.log(res);
+      })
+      this.props.history.push("/");
   }
 
   onSubmit() {
@@ -35,6 +41,7 @@ class CreatePost extends React.Component {
   }
 
   render() {
+
     const tagTitles = ["Baseball", "Basketball", "Soccer", "Football"];
     const Tags = tagTitles.map((sport) => {
       let bc = "white",

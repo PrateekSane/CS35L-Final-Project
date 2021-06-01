@@ -22,7 +22,7 @@ render() {
         
         <div>
             <br></br>
-            <p style={{textAlign: "center"}}>{this.state.body}</p>
+            <pre>{this.state.body}</pre>
         </div>
     </div> 
     );
