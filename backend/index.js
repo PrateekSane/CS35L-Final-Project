@@ -77,6 +77,13 @@ app.get("/getAllUsers", async(req, res) => {
     .then((data) => res.status(200).json(data))
     .catch((err) => console.log(err));
 });
+
+app.get("/getAllTweets", async(req, res) => {
+    Tweet.find({})
+    .then((data) => res.status(200).json(data))
+    .catch((err) => console.log(err));
+});
+
 app.listen(5000, () => {
   console.log("backend connnected to port 5000");
 });

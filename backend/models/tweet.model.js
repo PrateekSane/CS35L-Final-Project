@@ -3,7 +3,7 @@ const mongoose = require('mongoose');
 const schema = mongoose.Schema;
 
 const tweet = new schema({
-  name: {
+  title: {
     type: String,
     required: true,
   },
@@ -18,6 +18,10 @@ const tweet = new schema({
   shares: {
     type: Number,
     default: 0
+  }, 
+  tags: {
+    type: String,
+    default: "No Tag"
   }
 }, {
   timestamps: true
@@ -25,4 +29,4 @@ const tweet = new schema({
 
 const Tweet = mongoose.model('Tweet', tweet);
 
-module.exports = { Tweet };
+module.exports = Tweet;
