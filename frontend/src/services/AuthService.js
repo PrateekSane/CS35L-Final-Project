@@ -1,39 +1,39 @@
-import Axios from 'axios';
+import Axios from "axios";
 
-import { BASE_URL } from './config';
+import { BASE_URL } from "./config";
 
 const axios = Axios.create({
-	baseURL: BASE_URL,
+  baseURL: BASE_URL,
 });
 
 async function login(username, password) {
   try {
     let data = (
-      await axios.post('/loginUser', {
+      await axios.post("/loginUser", {
         username: username,
         password: password,
-    })
+      })
     ).data;
 
     return data;
-  } catch(e) {
+  } catch (e) {
     console.log(e);
     throw e;
   }
 }
 
 async function signup(username, password) {
-  console.log('in request')
+  console.log("in request");
   try {
     let data = (
-      await axios.post('/createUser', {
+      await axios.post("/createUser", {
         username: username,
         password: password,
-    })
+      })
     ).data;
 
     return data;
-  } catch(e) {
+  } catch (e) {
     console.log(e);
     throw e;
   }
