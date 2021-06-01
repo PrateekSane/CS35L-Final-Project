@@ -32,9 +32,8 @@ app.post("/createUser", async (req, res) => {
   if (!username || !password)
     return res.status(400).json("Required username / password not in body");
 
-  const cur = await User.findOne({ username: username })
-  if (cur)
-    return res.status(200).json('Username already exists');
+  const cur = await User.findOne({ username: username });
+  if (cur) return res.status(200).json("Username already exists");
 
   const newUser = new User({
     username: username,
@@ -54,18 +53,18 @@ app.post("/loginUser", async (req, res) => {
   if (!username || !password)
     return res.status(400).json("Required username / password not in body");
 
-  const cur = await User.findOne({ username: username })
+  const cur = await User.findOne({ username: username });
 
-  if(!cur)
-    return res.status(200).json("user doesn't exist");
+  if (!cur) return res.status(200).json("user doesn't exist");
 
   let validLogin;
   console.log(cur);
   password === cur.password ? (validLogin = true) : (validLogin = false);
 
-  console.log(validLogin)
-  validLogin ? res.status(200).json(cur) : res.status(200).json("incorrect password");
-
+  console.log(validLogin);
+  validLogin
+    ? res.status(200).json(cur)
+    : res.status(200).json("incorrect password");
 });
 
 app.delete("/deleteAllUsers", async (req, res) => {
@@ -92,9 +91,14 @@ app.post("/createTweet", async (req, res) => {
   return res.status(200).json({ newTweet });
 });
 
+app.get("/getAllTweets", async (req, res) => {
+  Tweet.find({})
+    .then((data) => res.status(200).json(data))
+    .catch((err) => console.log(err));
+});
 
-app.get("/getAllTweets", async(req, res) => {
-    Tweet.find({})
+app.get("/getUser/:id", async (req, res) => {
+  User.find({ _id: req.params.id })
     .then((data) => res.status(200).json(data))
     .catch((err) => console.log(err));
 });

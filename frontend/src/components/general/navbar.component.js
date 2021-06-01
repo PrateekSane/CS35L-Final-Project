@@ -1,5 +1,5 @@
-import React, { useContext } from 'react';
-import { Ctx } from '../StateProvider';
+import React, { useContext } from "react";
+import { Ctx } from "../StateProvider";
 import "./nav.css";
 
 const Navbar = () => {
@@ -27,31 +27,37 @@ const Navbar = () => {
           </a>
         </p>
       </div>
-      {
-        state.user ? (
-          <div className="item">
-            <p>
-              <a className="navbar-link" href="/login" onClick={
-                () => {
-                  dispatch({
-                    type: 'SET_USER',
-                    user: null,
-                  });
-                }}>
-                Log Out{" "}
-              </a>
-            </p>
-          </div>
-        ) : (
-          <div className="item">
-            <p>
-              <a className="navbar-link" href="/login" onClick={() => console.log('here')}>
-                Login{" "}
-              </a>
-            </p>
-          </div>
-        )
-      }
+      {state.user ? (
+        <div className="item">
+          <p>
+            <a
+              className="navbar-link"
+              href="/login"
+              onClick={() => {
+                dispatch({
+                  type: "SET_USER",
+                  user: null,
+                });
+                localStorage.removeItem("userID");
+              }}
+            >
+              Log Out{" "}
+            </a>
+          </p>
+        </div>
+      ) : (
+        <div className="item">
+          <p>
+            <a
+              className="navbar-link"
+              href="/login"
+              onClick={() => console.log("here")}
+            >
+              Login{" "}
+            </a>
+          </p>
+        </div>
+      )}
     </div>
   );
 };
