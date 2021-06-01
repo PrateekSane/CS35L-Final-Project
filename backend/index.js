@@ -101,6 +101,7 @@ app.get("/getAllTweets", async (req, res) => {
 
 app.get("/getUser/:id", async (req, res) => {
   User.find({ _id: req.params.id })
+    .populate("tweets")
     .then((data) => res.status(200).json(data))
     .catch((err) => console.log(err));
 });

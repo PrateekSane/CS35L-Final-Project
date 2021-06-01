@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useCallback } from "react";
 import Axios from "axios";
+import Tweet from "./tweet.component";
 import Navbar from "./navbar.component";
 
 const axios = Axios.create({
@@ -36,6 +37,17 @@ const Profile = () => {
         }}
       >
         <a style={{ fontSize: "50px" }}>{user.username}'s Profile</a>
+        {(user ? user.tweets : []).map((tweet) => (
+          <Tweet
+            cur={{
+              title: tweet.title,
+              body: tweet.body,
+              likes: tweet.likes,
+              shares: tweet.shares,
+              tag: tweet.tags,
+            }}
+          />
+        ))}
       </div>
     </div>
   );
