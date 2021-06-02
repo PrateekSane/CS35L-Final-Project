@@ -2,8 +2,11 @@ import React from "react";
 import './home.css';
 import Tweet from "./tweet.component";
 import axios from 'axios';
+import { Ctx } from "../StateProvider";
 
 class Home extends React.Component {
+  static contextType = Ctx;
+
   constructor() {
     super();
     this.state = {
@@ -20,6 +23,7 @@ class Home extends React.Component {
   }
 
 render() {
+  console.log(this.context)
     return (
       <div
         style={{
@@ -29,8 +33,14 @@ render() {
           paddingTop: "50px",
         }}
       >
+      {this.context.state.user ? (
+        <div style={{fontWeight: 'bold', fontSize: 60, paddingBottom: 20}}>
+          Welcome back {this.context.state.user.username}!
+        </div>
+      ) : (<></>)}
+      <div style={{alignSelf: 'flex-start', marginLeft: '15%', fontSize: 40, fontWeight: 'bold'}}>Trending Tweets</div>
       {[].concat(this.state.data).sort((a, b) => a.likes < b.likes ? 1 : -1).map((d) => (
-        <Tweet cur={{title: d.title, body: d.body, id: d._id, likes: d.likes, shares: d.shares, tag: d.tags}}/>
+        <Tweet key={d._id} cur={{title: d.title, body: d.body, id: d._id, likes: d.likes, shares: d.shares, tag: d.tags}}/>
       ))}
       </div>
     );

@@ -19,11 +19,11 @@ render() {
         <div className="header" style={{fontSize: "25px"}}>{this.state.title}</div>
         <br></br>
         <div className="header">
-            <a class="tag-button">{this.state.tag}</a>
-            <a class="tag-button">Likes: {this.state.likes}</a>
-            <a class="tag-button">Shares: {this.state.shares}</a>
+            <a className="tag-button">{this.state.tag}</a>
+            <a className="tag-button">Likes: {this.state.likes}</a>
+            <a className="tag-button">Shares: {this.state.shares}</a>
         </div>
-        
+
         <div>
             <br></br>
             <pre>{this.state.body}</pre>
@@ -37,7 +37,7 @@ render() {
             Share
         </button>
         </div>
-    </div> 
+    </div>
     );
 };
 

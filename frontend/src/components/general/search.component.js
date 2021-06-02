@@ -43,8 +43,9 @@ const Search = () => {
           value={tag}
           onChange={(e) => changeTag(e)}
           placeholder="Enter a Tag"
+          style={{marginBottom: 30}}
         />
-        <a style={{ fontSize: "50px" }}>Showing posts for {tag}</a>
+        {tweets.length !== 0 ? <a style={{ fontSize: "50px" }}>Showing posts for {tag}</a> : <></>}
         {loading ? (
           <a style={{ fontSize: "25px" }}>Loading...</a>
         ) : (
