@@ -14,11 +14,11 @@ class Tweet extends React.Component {
 
 render() {
     const userID = localStorage.getItem('userID');
-    axios.get(`http://localhost:5000/getUser/${userID}`)
-        .then(res => {
-        this.setState({ user: res });
-        console.log(this.state.user.data);
-        this.isLiked = this.state.user.data.likedTweets.includes(this.state.id);
+        axios.get(`http://localhost:5000/getUser/${userID}`)
+            .then(res => {
+            this.setState({ user: res });
+            this.isLiked = this.state.user.data.likedTweets.includes(this.state.id);
+            this.isShared = this.state.user.data.sharedTweets.includes(this.state.id);
     })
     return (
     <div className="card" >
@@ -49,14 +49,12 @@ render() {
     
 };
 
-//working on tracking likes
 like() {
     if(localStorage.getItem('userID') == null) {
         window.location.replace("http://localhost:3000/login");
         return;
     }
     const userID = localStorage.getItem('userID');
-         // This is the response of the $http request
     if (!this.isLiked) {
         axios.put(`http://localhost:5000/addLike/${this.state.id}`);
         axios.post(`http://localhost:5000/likeTweet/${this.state.id}&${userID}`);
@@ -80,19 +78,23 @@ share() {
         window.location.replace("http://localhost:3000/login");
         return;
     }
+    const userID = localStorage.getItem('userID');
     if (!this.isShared) {
+        axios.put(`http://localhost:5000/addShare/${this.state.id}`);
+        axios.post(`http://localhost:5000/shareTweet/${this.state.id}&${userID}`);
         this.setState ({
             shares: this.state.shares + 1,
         });
-        axios.put(`http://localhost:5000/addShare/${this.state.id}`);
+        this.isShared = true;
     }
     else {
+        axios.put(`http://localhost:5000/subShare/${this.state.id}`);
+        axios.post(`http://localhost:5000/unshareTweet/${this.state.id}&${userID}`);
         this.setState ({
             shares: this.state.shares - 1,
         });
-        axios.put(`http://localhost:5000/subShare/${this.state.id}`);
+        this.isShared = false;
     }
-    this.isShared = !this.isShared;
 }
 
 

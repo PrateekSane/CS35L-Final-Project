@@ -137,7 +137,17 @@ app.put("/addLike/:id", async (req, res) => {
   )
 });
 
-//currently working on this
+app.put("/subLike/:id", async (req, res) => {
+  Tweet.findOneAndUpdate(
+    { _id: req.params.id },
+    { $inc: { likes: -1 } }, (err) => {
+      if(err) {
+        console.log(err);
+      }
+    }
+  )
+});
+
 app.post("/likeTweet/:id&:_id", async (req, res) => {
   User.findOneAndUpdate(
     { _id: req.params._id },
@@ -154,17 +164,6 @@ app.post("/unlikeTweet/:id&:_id", async (req, res) => {
     
   ).then((user) => res.status(200).json(user))
   .catch((err) => res.status(400).json(err));
-});
-
-app.put("/subLike/:id", async (req, res) => {
-  Tweet.findOneAndUpdate(
-    { _id: req.params.id },
-    { $inc: { likes: -1 } }, (err) => {
-      if(err) {
-        console.log(err);
-      }
-    }
-  )
 });
 
 app.put("/addShare/:id", async (req, res) => {
@@ -187,6 +186,24 @@ app.put("/subShare/:id", async (req, res) => {
       }
     }
   )
+});
+
+app.post("/shareTweet/:id&:_id", async (req, res) => {
+  User.findOneAndUpdate(
+    { _id: req.params._id },
+    { $push: { sharedTweets: req.params.id } }
+    
+  ).then((user) => res.status(200).json(user))
+  .catch((err) => res.status(400).json(err));
+});
+
+app.post("/unshareTweet/:id&:_id", async (req, res) => {
+  User.findOneAndUpdate(
+    { _id: req.params._id },
+    { $pull: { sharedTweets: req.params.id } }
+    
+  ).then((user) => res.status(200).json(user))
+  .catch((err) => res.status(400).json(err));
 });
 
 app.listen(5000, () => {
