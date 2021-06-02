@@ -26,6 +26,10 @@ const userSchema = new schema({
   likedTweets: {
     type: [mongoose.Schema.Types.ObjectId],
     ref: "Tweet",
+  },
+  sharedTweets: {
+    type: [mongoose.Schema.Types.ObjectId],
+    ref: "Tweet",
   }
 });
 
