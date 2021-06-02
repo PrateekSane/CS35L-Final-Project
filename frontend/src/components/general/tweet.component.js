@@ -1,3 +1,4 @@
+import axios from 'axios';
 import React, { useContext } from 'react';
 import './home.css';
 
@@ -44,12 +45,14 @@ like() {
     if (!this.isLiked) {
         this.setState ({
             likes: this.state.likes + 1,
-        })
+        });
+        axios.put(`http://localhost:5000/addLike/${this.state.id}`);
     }
     else {
         this.setState ({
             likes: this.state.likes - 1,
         })
+        axios.put(`http://localhost:5000/subLike/${this.state.id}`);
     }
     this.isLiked = !this.isLiked;
 }
@@ -58,12 +61,14 @@ share() {
     if (!this.isShared) {
         this.setState ({
             shares: this.state.shares + 1,
-        })
+        });
+        axios.put(`http://localhost:5000/addShare/${this.state.id}`);
     }
     else {
         this.setState ({
             shares: this.state.shares - 1,
-        })
+        });
+        axios.put(`http://localhost:5000/subShare/${this.state.id}`);
     }
     this.isShared = !this.isShared;
 }
