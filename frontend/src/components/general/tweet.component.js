@@ -12,8 +12,14 @@ class Tweet extends React.Component {
       this.isShared = false;
     }
 
-
 render() {
+    const userID = localStorage.getItem('userID');
+    axios.get(`http://localhost:5000/getUser/${userID}`)
+        .then(res => {
+        this.setState({ user: res });
+        console.log(this.state.user.data);
+        this.isLiked = this.state.user.data.likedTweets.includes(this.state.id);
+    })
     return (
     <div className="card" >
         <div className="header" style={{fontSize: "25px"}}>{this.state.title}</div>
@@ -30,6 +36,7 @@ render() {
         </div>
 
         <div float="right">
+        
         <button className= {this.isLiked ? "liked-button" : "unliked-button"} onClick={this.like}>
             Like
         </button>
@@ -42,24 +49,30 @@ render() {
     
 };
 
+//working on tracking likes
 like() {
     if(localStorage.getItem('userID') == null) {
         window.location.replace("http://localhost:3000/login");
         return;
     }
+    const userID = localStorage.getItem('userID');
+         // This is the response of the $http request
     if (!this.isLiked) {
+        axios.put(`http://localhost:5000/addLike/${this.state.id}`);
+        axios.post(`http://localhost:5000/likeTweet/${this.state.id}&${userID}`);
         this.setState ({
             likes: this.state.likes + 1,
         });
-        axios.put(`http://localhost:5000/addLike/${this.state.id}`);
+        this.isLiked = true;
     }
     else {
+        axios.put(`http://localhost:5000/subLike/${this.state.id}`);
+        axios.post(`http://localhost:5000/unlikeTweet/${this.state.id}&${userID}`);
         this.setState ({
             likes: this.state.likes - 1,
         })
-        axios.put(`http://localhost:5000/subLike/${this.state.id}`);
+        this.isLiked = false;
     }
-    this.isLiked = !this.isLiked;
 }
 
 share() {

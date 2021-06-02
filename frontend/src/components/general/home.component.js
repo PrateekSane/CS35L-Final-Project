@@ -26,7 +26,7 @@ render() {
     let tweets = [].concat(this.state.data).sort((a, b) => a.likes < b.likes ? 1 : -1).map((d) => (
       <Tweet key={d._id} cur={{title: d.title, body: d.body, id: d._id, likes: d.likes, shares: d.shares, tag: d.tags}}/>
     ));
-    tweets = this.context.state.user ? tweets : tweets.slice(0, 3);
+    tweets = localStorage.getItem('userID') ? tweets : tweets.slice(0, 3);
 
     return (
       <div
@@ -37,14 +37,14 @@ render() {
           paddingTop: "50px",
         }}
       >
-      {this.context.state.user ? (
+      {localStorage.getItem('userID') ? (
         <div style={{fontWeight: 'bold', fontSize: 60, paddingBottom: 20}}>
-          Welcome back {this.context.state.user.username}!
+          Welcome back!
         </div>
       ) : (<></>)}
       <div style={{alignSelf: 'flex-start', marginLeft: '15%', fontSize: 40, fontWeight: 'bold'}}>Trending Tweets</div>
       {tweets}
-      {!this.context.state.user ? (
+      {!localStorage.getItem('userID') ? (
         <div style={{fontWeight: 'bold', fontSize: 20, paddingBottom: 20}}>
           Login or create an account to see more posts.
         </div>

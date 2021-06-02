@@ -23,6 +23,10 @@ const userSchema = new schema({
     type: [mongoose.Schema.Types.ObjectId],
     ref: "User",
   },
+  likedTweets: {
+    type: [mongoose.Schema.Types.ObjectId],
+    ref: "Tweet",
+  }
 });
 
 const User = mongoose.model("User", userSchema);
