@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Ctx } from '../StateProvider';
+import { Ctx } from "../StateProvider";
 import AuthService from "../../services/AuthService";
 import "./auth.css";
 
@@ -26,25 +26,24 @@ export default class Login extends Component {
   async makeRequest(username, password) {
     try {
       let data = await AuthService.login(username, password);
-      if(data === "user doesn't exist") {
-        alert('Username not found');
+      if (data === "user doesn't exist") {
+        alert("Username not found");
         this.setState({
           username: "",
           password: "",
         });
-      }
-      else if(data === "incorrect password") {
-        alert('Incorrect password');
+      } else if (data === "incorrect password") {
+        alert("Incorrect password");
         this.setState({
           username: "",
           password: "",
         });
-      }
-      else {
+      } else {
         this.context.dispatch({
-          type: 'SET_USER',
+          type: "SET_USER",
           user: data,
         });
+        localStorage.setItem("userID", data._id);
         this.props.history.push("/");
       }
     } catch (err) {
@@ -53,12 +52,12 @@ export default class Login extends Component {
   }
 
   onSubmit() {
-    if(!this.state.username) {
-      alert('Please enter your username.')
+    if (!this.state.username) {
+      alert("Please enter your username.");
       return;
     }
-    if(!this.state.password) {
-      alert('Please enter your password.')
+    if (!this.state.password) {
+      alert("Please enter your password.");
       return;
     }
     this.makeRequest(this.state.username, this.state.password);
@@ -68,7 +67,11 @@ export default class Login extends Component {
     return (
       <div className="auth-wrapper">
         <div className="form-wrapper">
-          <p><a className="title-text" href='/'>SPORTZ</a></p>
+          <p>
+            <a className="title-text" href="/">
+              SPORTZ
+            </a>
+          </p>
           <input
             className="input-field"
             type="text"

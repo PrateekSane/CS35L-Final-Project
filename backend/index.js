@@ -24,17 +24,16 @@ app.#whatever your http req is#('/#address of whatever (e.g. /getUserTweets)#', 
 })
 
 */
-
+//START OF ROUTES
 app.post("/createUser", async (req, res) => {
   // error checking
   const { username, password } = req.body;
 
-  if(!username || !password)
-    return res.status(400).json('Required username / password not in body');
+  if (!username || !password)
+    return res.status(400).json("Required username / password not in body");
 
-  const cur = await User.findOne({ username: username })
-  if (cur)
-    return res.status(200).json('Username already exists');
+  const cur = await User.findOne({ username: username });
+  if (cur) return res.status(200).json("Username already exists");
 
   const newUser = new User({
     username: username,
@@ -51,35 +50,59 @@ app.post("/loginUser", async (req, res) => {
   // error checking
   const { username, password } = req.body;
 
-  if(!username || !password)
-    return res.status(400).json('Required username / password not in body');
+  if (!username || !password)
+    return res.status(400).json("Required username / password not in body");
 
-  const cur = await User.findOne({ username: username })
+  const cur = await User.findOne({ username: username });
 
-  if(!cur)
-    return res.status(200).json("user doesn't exist");
+  if (!cur) return res.status(200).json("user doesn't exist");
 
   let validLogin;
   console.log(cur);
   password === cur.password ? (validLogin = true) : (validLogin = false);
-  console.log(validLogin)
-  validLogin ? res.status(200).json(cur) : res.status(200).json("incorrect password");
+
+  console.log(validLogin);
+  validLogin
+    ? res.status(200).json(cur)
+    : res.status(200).json("incorrect password");
 });
 
-app.delete("/deleteAllUsers", async(req, res) => {
+app.delete("/deleteAllUsers", async (req, res) => {
   User.deleteMany({})
     .then((data) => res.status(200).json(data))
     .catch((err) => console.log(err));
 });
 
-app.get("/getAllUsers", async(req, res) => {
+app.get("/getAllUsers", async (req, res) => {
   User.find({})
+    .then((data) => console.log(data))
+    .catch((err) => console.log(err));
+});
+app.post("/createTweet", async (req, res) => {
+  console.log(req.body);
+  const newTweet = await new Tweet({
+    title: req.body.data.title,
+    body: req.body.data.body,
+    tags: req.body.data.tags,
+  });
+  newTweet.save().catch((err) => res.status(401).json(err));
+  User.findOneAndUpdate(
+    { _id: req.body.data.userId },
+    { $push: { tweets: newTweet._id } }
+  )
+    .then((user) => res.status(200).json(user))
+    .catch((err) => res.status(400).json(err));
+});
+
+app.get("/getAllTweets", async (req, res) => {
+  Tweet.find({})
     .then((data) => res.status(200).json(data))
     .catch((err) => console.log(err));
 });
 
-app.get("/getAllTweets", async(req, res) => {
-    Tweet.find({})
+app.get("/getUser/:id", async (req, res) => {
+  User.find({ _id: req.params.id })
+    .populate("tweets")
     .then((data) => res.status(200).json(data))
     .catch((err) => console.log(err));
 });

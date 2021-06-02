@@ -1,12 +1,14 @@
 import React from "react";
 import "./createpost.css";
+import axios from 'axios';
+
 class CreatePost extends React.Component {
   constructor() {
     super();
     this.state = {
       body: "",
       title: "",
-      tags: "",
+      tag: "",
     };
     this.handleChange = this.handleChange.bind(this);
     this.onSubmit = this.onSubmit.bind(this);
@@ -18,24 +20,50 @@ class CreatePost extends React.Component {
       [name]: value,
     });
   }
-
-  async makeRequest(username, password) {
-    /*
-    try {
-      let data = await AuthService.signup(username, password);
-      console.log(data);
-      this.props.history.push("/login");
-    } catch (err) {
-      console.log(err);
-    }
-    */
+  async makeRequest() {
+    const data = {
+      title: this.state.title,
+      body: this.state.body,
+      tags: this.state.tag,
+      userId: localStorage.getItem('userID')
+    };
+    console.log(data.userId);
+ 
+      axios.post('http://localhost:5000/createTweet', {data})
+      .then(res => {
+        console.log(res);
+      })
+      this.props.history.push("/");
   }
 
   onSubmit() {
-    //this.makeRequest();
+    this.makeRequest();
   }
 
   render() {
+
+    const tagTitles = ["Baseball", "Basketball", "Soccer", "Football"];
+    const Tags = tagTitles.map((sport) => {
+      let bc = "white",
+        c = "#449bce";
+      if (this.state.tag === sport) {
+        bc = "#449bce";
+        c = "white";
+      }
+
+      return (
+        <button
+          name="tag"
+          value={sport}
+          onClick={this.handleChange}
+          className="tag-button"
+          style={{ backgroundColor: bc, color: c }}
+        >
+          {sport}
+        </button>
+      );
+    });
+
     return (
       <div className="create-post-page">
         <div className="create-post-wrapper">
@@ -49,16 +77,17 @@ class CreatePost extends React.Component {
             onChange={this.handleChange}
             placeholder="Title"
           />
-          <p>What would you like to talk about?</p>
-          <input
-            className="input-field"
+          <p>What happened?</p>
+          <textarea
+            className="input-field-big"
             type="text"
             name="body"
             value={this.state.body}
             onChange={this.handleChange}
             placeholder="Body"
           />
-
+          <p>Pick a tag:</p>
+          <div style={{ display: "flex", margin: "5px" }}>{Tags}</div>
           <button className="submission-button" onClick={this.onSubmit}>
             Post
           </button>
