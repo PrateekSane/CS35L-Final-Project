@@ -4,8 +4,9 @@ import './home.css';
 class Tweet extends React.Component {
     constructor(props) {
       super(props);
-      this.state = 
-        this.props.cur;
+      this.state = this.props.cur;
+      this.like = this.like.bind(this);
+      this.isLiked = false;
     }
 
 
@@ -24,9 +25,32 @@ render() {
             <br></br>
             <p style={{textAlign: "center"}}>{this.state.body}</p>
         </div>
+
+        <div float="right">
+        <button className= {this.isLiked ? "liked-button" : "unliked-button"} onClick={this.like}>
+            Like
+        </button>
+        <button className="share-button">
+            Share
+        </button>
+        </div>
     </div> 
     );
 };
+
+like() {
+    if (!this.isLiked) {
+        this.setState ({
+            likes: this.state.likes + 1,
+        })
+    }
+    else {
+        this.setState ({
+            likes: this.state.likes - 1,
+        })
+    }
+    this.isLiked = !this.isLiked;
+}
 
 }
 export default Tweet;

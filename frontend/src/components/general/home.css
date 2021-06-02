@@ -26,3 +26,41 @@
     cursor: pointer;
     padding: 5px;
   }
+
+  .unliked-button {
+    background-color: white;
+    color: #449bce;
+    border-radius: 10%;
+    height: 40px;
+    width: 90px;
+    margin: 5px;
+    cursor: pointer;
+    padding: 5px;
+  }
+
+  .liked-button {
+    background-color: #449bce;
+    color: white;
+    border-radius: 10%;
+    height: 40px;
+    width: 90px;
+    margin: 5px;
+    cursor: pointer;
+    padding: 5px;
+  }
+
+  .share-button {
+    background-color: white;
+    color: #449bce;
+    border-radius: 10%;
+    height: 40px;
+    width: 90px;
+    margin: 5px;
+    cursor: pointer;
+    padding: 5px;
+  }
+
+  .unliked-button:hover {
+    background-color: #58a8d6;
+    color: white;
+  }
