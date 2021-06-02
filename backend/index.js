@@ -113,6 +113,50 @@ app.get("/getUser/:id", async (req, res) => {
     .catch((err) => console.log(err));
 });
 
+app.put("/addLike/:id", async (req, res) => {
+  Tweet.findOneAndUpdate(
+    { _id: req.params.id },
+    { $inc: { likes: 1 } }, (err) => {
+      if(err) {
+        console.log(err);
+      }
+    }
+  )
+});
+
+app.put("/subLike/:id", async (req, res) => {
+  Tweet.findOneAndUpdate(
+    { _id: req.params.id },
+    { $inc: { likes: -1 } }, (err) => {
+      if(err) {
+        console.log(err);
+      }
+    }
+  )
+});
+
+app.put("/addShare/:id", async (req, res) => {
+  Tweet.findOneAndUpdate(
+    { _id: req.params.id },
+    { $inc: { shares: 1 } }, (err) => {
+      if(err) {
+        console.log(err);
+      }
+    }
+  )
+});
+
+app.put("/subShare/:id", async (req, res) => {
+  Tweet.findOneAndUpdate(
+    { _id: req.params.id },
+    { $inc: { shares: -1 } }, (err) => {
+      if(err) {
+        console.log(err);
+      }
+    }
+  )
+});
+
 app.listen(5000, () => {
   console.log("backend connnected to port 5000");
 });

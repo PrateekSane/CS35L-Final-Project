@@ -30,7 +30,7 @@ render() {
         }}
       >
       {[].concat(this.state.data).sort((a, b) => a.likes < b.likes ? 1 : -1).map((d) => (
-        <Tweet cur={{title: d.title, body: d.body, likes: d.likes, shares: d.shares, tag: d.tags}}/>
+        <Tweet cur={{title: d.title, body: d.body, id: d._id, likes: d.likes, shares: d.shares, tag: d.tags}}/>
       ))}
       </div>
     );
