@@ -23,7 +23,11 @@ class Home extends React.Component {
   }
 
 render() {
-  console.log(this.context)
+    let tweets = [].concat(this.state.data).sort((a, b) => a.likes < b.likes ? 1 : -1).map((d) => (
+      <Tweet key={d._id} cur={{title: d.title, body: d.body, id: d._id, likes: d.likes, shares: d.shares, tag: d.tags}}/>
+    ));
+    tweets = this.context.state.user ? tweets : tweets.slice(0, 3);
+
     return (
       <div
         style={{
@@ -39,9 +43,12 @@ render() {
         </div>
       ) : (<></>)}
       <div style={{alignSelf: 'flex-start', marginLeft: '15%', fontSize: 40, fontWeight: 'bold'}}>Trending Tweets</div>
-      {[].concat(this.state.data).sort((a, b) => a.likes < b.likes ? 1 : -1).map((d) => (
-        <Tweet key={d._id} cur={{title: d.title, body: d.body, id: d._id, likes: d.likes, shares: d.shares, tag: d.tags}}/>
-      ))}
+      {tweets}
+      {!this.context.state.user ? (
+        <div style={{fontWeight: 'bold', fontSize: 20, paddingBottom: 20}}>
+          Login or create an account to see more posts.
+        </div>
+      ) : (<></>)}
       </div>
     );
   };
