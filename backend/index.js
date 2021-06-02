@@ -106,6 +106,12 @@ app.get("/searchTweets/:tag", async (req, res) => {
     .catch((err) => console.log(err));
 });
 
+app.get("/getUserByName/:username", async (req, res) => {
+  User.find({ username: req.params.username })
+    .then((data) => res.status(200).json(data))
+    .catch((err) => console.log(err));
+})
+
 app.get("/getUser/:id", async (req, res) => {
   User.findOne({ _id: req.params.id })
     .populate("tweets")
