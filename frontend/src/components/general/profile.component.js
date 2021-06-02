@@ -54,6 +54,21 @@ const Profile = () => {
             }}
           />
         ))}
+        <br></br>
+        <a style={{ fontSize: "50px" }}>Shared Tweets</a>
+        {(user ? user.sharedTweets : []).map((tweet) => (
+          <Tweet
+            key={tweet._id}
+            cur={{
+              title: tweet.title,
+              body: tweet.body,
+              likes: tweet.likes,
+              shares: tweet.shares,
+              tag: tweet.tags,
+              id: tweet._id,
+            }}
+          />
+        ))}
       </div>
     </div>
   );
