@@ -73,6 +73,13 @@ app.delete("/deleteAllUsers", async (req, res) => {
     .catch((err) => console.log(err));
 });
 
+app.delete("/deleteAllTweets", async (req, res) => {
+  Tweet.deleteMany({})
+    .then((data) => res.status(200).json(data))
+    .catch((err) => console.log(err));
+});
+
+
 app.get("/getAllUsers", async (req, res) => {
   User.find({})
     .then((data) => console.log(data))

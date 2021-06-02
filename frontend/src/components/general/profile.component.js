@@ -24,8 +24,12 @@ const Profile = () => {
   useEffect(() => {
     getProfile();
   }, [getProfile]);
-
+  if(localStorage.getItem('userID') == null) {
+    window.location.replace("http://localhost:3000/login");
+    return;
+  }
   return (
+    
     <div>
       <Navbar />
       <div
@@ -46,6 +50,7 @@ const Profile = () => {
               likes: tweet.likes,
               shares: tweet.shares,
               tag: tweet.tags,
+              id: tweet._id,
             }}
           />
         ))}
