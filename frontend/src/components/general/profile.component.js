@@ -39,6 +39,7 @@ const Profile = () => {
         <a style={{ fontSize: "50px" }}>{user.username}'s Profile</a>
         {(user ? user.tweets : []).map((tweet) => (
           <Tweet
+            key={tweet._id}
             cur={{
               title: tweet.title,
               body: tweet.body,
