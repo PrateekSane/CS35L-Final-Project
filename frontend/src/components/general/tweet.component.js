@@ -10,16 +10,25 @@ class Tweet extends React.Component {
       this.isLiked = false;
       this.share = this.share.bind(this);
       this.isShared = false;
+      this.isChanged = true;
     }
 
-render() {
+getData() {
     const userID = localStorage.getItem('userID');
         axios.get(`http://localhost:5000/getUser/${userID}`)
             .then(res => {
+            console.log(res.data.sharedTweets);
+            this.isLiked = res.data.likedTweets.includes(this.state.id);
+            this.isShared = res.data.sharedTweets.map((tweet) => tweet._id).includes(this.state.id);
             this.setState({ user: res });
-            this.isLiked = this.state.user.data.likedTweets.includes(this.state.id);
-            this.isShared = this.state.user.data.sharedTweets.includes(this.state.id);
-    })
+        })
+}
+
+render() {
+    if (this.isChanged) {
+        this.getData();
+        this.isChanged = false;
+    }
     return (
     <div className="card" >
         <div className="header" style={{fontSize: "25px"}}>{this.state.title}</div>
@@ -40,6 +49,7 @@ render() {
         <button className= {this.isLiked ? "liked-button" : "unliked-button"} onClick={this.like}>
             Like
         </button>
+        {console.log("button " + this.isShared)}
         <button className= {this.isShared ? "shared-button" : "unshared-button"} onClick={this.share}>
             Share
         </button>
@@ -71,6 +81,7 @@ like() {
         })
         this.isLiked = false;
     }
+    this.isChanged = true;
 }
 
 share() {
@@ -79,6 +90,7 @@ share() {
         return;
     }
     const userID = localStorage.getItem('userID');
+    console.log(this.isShared);
     if (!this.isShared) {
         axios.put(`http://localhost:5000/addShare/${this.state.id}`);
         axios.post(`http://localhost:5000/shareTweet/${this.state.id}&${userID}`);
@@ -95,6 +107,7 @@ share() {
         });
         this.isShared = false;
     }
+    this.isChanged = true;
 }
 
 

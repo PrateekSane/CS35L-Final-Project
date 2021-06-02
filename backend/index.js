@@ -86,7 +86,6 @@ app.get("/getAllUsers", async (req, res) => {
     .catch((err) => console.log(err));
 });
 app.post("/createTweet", async (req, res) => {
-  console.log(req.body);
   const newTweet = await new Tweet({
     title: req.body.data.title,
     body: req.body.data.body,
@@ -122,6 +121,7 @@ app.get("/getUserByName/:username", async (req, res) => {
 app.get("/getUser/:id", async (req, res) => {
   User.findOne({ _id: req.params.id })
     .populate("tweets")
+    .populate("sharedTweets")
     .then((data) => res.status(200).json(data))
     .catch((err) => console.log(err));
 });
@@ -193,7 +193,10 @@ app.post("/shareTweet/:id&:_id", async (req, res) => {
     { _id: req.params._id },
     { $push: { sharedTweets: req.params.id } }
     
-  ).then((user) => res.status(200).json(user))
+  ).then((user) => {
+    console.log(user);
+    res.status(200).json(user);
+  })
   .catch((err) => res.status(400).json(err));
 });
 
