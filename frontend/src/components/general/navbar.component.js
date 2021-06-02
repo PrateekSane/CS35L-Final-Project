@@ -27,6 +27,13 @@ const Navbar = () => {
           </a>
         </p>
       </div>
+      <div className="item">
+        <p>
+          <a className="navbar-link" href="/search">
+            Search
+          </a>
+        </p>
+      </div>
       {state.user ? (
         <div className="item">
           <p>
