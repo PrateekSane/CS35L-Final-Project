@@ -13,7 +13,7 @@ const Profile = () => {
   const getProfile = useCallback(async () => {
     try {
       const id = localStorage.getItem("userID");
-      const data = (await axios.get(`/getUser/${id}`)).data[0];
+      const data = (await axios.get(`/getUser/${id}`)).data;
       setUser(data);
     } catch (e) {
       console.log(e);

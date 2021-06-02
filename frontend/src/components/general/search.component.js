@@ -13,9 +13,17 @@ const Search = () => {
   const [tweets, setTweets] = useState([]);
   const [loading, setLoading] = useState(false);
 
-  useEffect(() => {
-    console.log(tag);
-  });
+  const changeTag = async (e) => {
+    setTag(e.target.value);
+
+    setLoading(true);
+
+    const data = (await axios.get(`/searchTweets/${e.target.value}`)).data;
+    setTweets(data);
+    console.log(data);
+
+    setLoading(false);
+  };
 
   return (
     <div>
@@ -33,7 +41,7 @@ const Search = () => {
           type="text"
           name="tag"
           value={tag}
-          onChange={(e) => setTag(e.target.value)}
+          onChange={(e) => changeTag(e)}
           placeholder="Enter a Tag"
         />
         <a style={{ fontSize: "50px" }}>Showing posts for {tag}</a>

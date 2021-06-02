@@ -99,8 +99,14 @@ app.get("/getAllTweets", async (req, res) => {
     .catch((err) => console.log(err));
 });
 
+app.get("/searchTweets/:tag", async (req, res) => {
+  Tweet.find({ tags: req.params.tag })
+    .then((data) => res.status(200).json(data))
+    .catch((err) => console.log(err));
+});
+
 app.get("/getUser/:id", async (req, res) => {
-  User.find({ _id: req.params.id })
+  User.findOne({ _id: req.params.id })
     .populate("tweets")
     .then((data) => res.status(200).json(data))
     .catch((err) => console.log(err));
