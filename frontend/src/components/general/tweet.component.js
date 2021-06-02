@@ -39,9 +39,14 @@ render() {
         </div>
     </div>
     );
+    
 };
 
 like() {
+    if(localStorage.getItem('userID') == null) {
+        window.location.replace("http://localhost:3000/login");
+        return;
+    }
     if (!this.isLiked) {
         this.setState ({
             likes: this.state.likes + 1,
@@ -58,6 +63,10 @@ like() {
 }
 
 share() {
+    if(localStorage.getItem('userID') == null) {
+        window.location.replace("http://localhost:3000/login");
+        return;
+    }
     if (!this.isShared) {
         this.setState ({
             shares: this.state.shares + 1,
@@ -73,5 +82,7 @@ share() {
     this.isShared = !this.isShared;
 }
 
+
 }
+
 export default Tweet;

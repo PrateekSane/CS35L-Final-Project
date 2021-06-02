@@ -9,6 +9,7 @@ const axios = Axios.create({
 });
 
 const Search = () => {
+  
   const [tag, setTag] = useState("");
   const [tweets, setTweets] = useState([]);
   const [loading, setLoading] = useState(false);
@@ -24,8 +25,12 @@ const Search = () => {
 
     setLoading(false);
   };
-
+  if(localStorage.getItem('userID') == null) {
+    window.location.replace("http://localhost:3000/login");
+    return;
+  }
   return (
+    
     <div>
       <Navbar />
       <div

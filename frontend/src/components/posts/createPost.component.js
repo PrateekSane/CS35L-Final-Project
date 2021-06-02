@@ -41,7 +41,10 @@ class CreatePost extends React.Component {
   }
 
   render() {
-
+    if(localStorage.getItem('userID') == null) {
+      window.location.replace("http://localhost:3000/login");
+      return;
+    }
     const tagTitles = ["Baseball", "Basketball", "Soccer", "Football"];
     const Tags = tagTitles.map((sport) => {
       let bc = "white",
