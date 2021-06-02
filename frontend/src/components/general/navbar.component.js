@@ -14,7 +14,7 @@ const Navbar = () => {
           </Link>
         </p>
       </div>
-      {state.user ? (
+      {localStorage.getItem('userID') ? (
         <>
           <div className="item">
             <p>
