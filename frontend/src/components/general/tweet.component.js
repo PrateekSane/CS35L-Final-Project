@@ -7,6 +7,8 @@ class Tweet extends React.Component {
       this.state = this.props.cur;
       this.like = this.like.bind(this);
       this.isLiked = false;
+      this.share = this.share.bind(this);
+      this.isShared = false;
     }
 
 
@@ -30,7 +32,7 @@ render() {
         <button className= {this.isLiked ? "liked-button" : "unliked-button"} onClick={this.like}>
             Like
         </button>
-        <button className="share-button">
+        <button className= {this.isShared ? "shared-button" : "unshared-button"} onClick={this.share}>
             Share
         </button>
         </div>
@@ -50,6 +52,20 @@ like() {
         })
     }
     this.isLiked = !this.isLiked;
+}
+
+share() {
+    if (!this.isShared) {
+        this.setState ({
+            shares: this.state.shares + 1,
+        })
+    }
+    else {
+        this.setState ({
+            shares: this.state.shares - 1,
+        })
+    }
+    this.isShared = !this.isShared;
 }
 
 }
