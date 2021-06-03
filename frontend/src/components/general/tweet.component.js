@@ -1,8 +1,11 @@
 import axios from 'axios';
-import React, { useContext } from 'react';
+import React from 'react';
+import { Ctx } from "../StateProvider";
 import './home.css';
 
 class Tweet extends React.Component {
+    static contextType = Ctx;
+
     constructor(props) {
       super(props);
       this.state = this.props.cur;
@@ -14,10 +17,9 @@ class Tweet extends React.Component {
     }
 
 getData() {
-    const userID = localStorage.getItem('userID');
+    const userID = this.context.state.user._id;
         axios.get(`http://localhost:5000/getUser/${userID}`)
             .then(res => {
-            console.log(res.data.sharedTweets);
             this.isLiked = res.data.likedTweets.includes(this.state.id);
             this.isShared = res.data.sharedTweets.map((tweet) => tweet._id).includes(this.state.id);
             this.setState({ user: res });
@@ -25,7 +27,7 @@ getData() {
 }
 
 render() {
-    if (this.isChanged) {
+    if (this.context.state.user && this.isChanged) {
         this.getData();
         this.isChanged = false;
     }
@@ -45,26 +47,28 @@ render() {
         </div>
 
         <div float="right">
-        
-        <button className= {this.isLiked ? "liked-button" : "unliked-button"} onClick={this.like}>
-            Like
-        </button>
-        {console.log("button " + this.isShared)}
-        <button className= {this.isShared ? "shared-button" : "unshared-button"} onClick={this.share}>
-            Share
-        </button>
+        {this.context.state.user && (
+            <>
+                <button className= {this.isLiked ? "liked-button" : "unliked-button"} onClick={this.like}>
+                    Like
+                </button>
+                <button className= {this.isShared ? "shared-button" : "unshared-button"} onClick={this.share}>
+                    Share
+                </button>
+            </>
+        )}
         </div>
     </div>
     );
-    
+
 };
 
 like() {
-    if(localStorage.getItem('userID') == null) {
+    if(!this.context.state.user) {
         window.location.replace("http://localhost:3000/login");
         return;
     }
-    const userID = localStorage.getItem('userID');
+    const userID = this.context.state.user._id;
     if (!this.isLiked) {
         axios.put(`http://localhost:5000/addLike/${this.state.id}`);
         axios.post(`http://localhost:5000/likeTweet/${this.state.id}&${userID}`);
@@ -85,12 +89,11 @@ like() {
 }
 
 share() {
-    if(localStorage.getItem('userID') == null) {
+    if(!this.context.state.user) {
         window.location.replace("http://localhost:3000/login");
         return;
     }
-    const userID = localStorage.getItem('userID');
-    console.log(this.isShared);
+    const userID = this.context.state.user._id;
     if (!this.isShared) {
         axios.put(`http://localhost:5000/addShare/${this.state.id}`);
         axios.post(`http://localhost:5000/shareTweet/${this.state.id}&${userID}`);

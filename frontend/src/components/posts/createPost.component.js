@@ -1,8 +1,11 @@
 import React from "react";
 import "./createpost.css";
 import axios from 'axios';
+import { Ctx } from "../StateProvider";
 
 class CreatePost extends React.Component {
+  static contextType = Ctx;
+
   constructor() {
     super();
     this.state = {
@@ -25,10 +28,9 @@ class CreatePost extends React.Component {
       title: this.state.title,
       body: this.state.body,
       tags: this.state.tag,
-      userId: localStorage.getItem('userID')
+      userId: this.context.state.user._id
     };
-    console.log(data.userId);
- 
+
       axios.post('http://localhost:5000/createTweet', {data})
       .then(res => {
         console.log(res);
@@ -41,7 +43,7 @@ class CreatePost extends React.Component {
   }
 
   render() {
-    if(localStorage.getItem('userID') == null) {
+    if(!this.context.state.user) {
       window.location.replace("http://localhost:3000/login");
       return;
     }
