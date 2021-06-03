@@ -77,7 +77,7 @@ export default class Signup extends Component {
           />
           <input
             className="input-field"
-            type="text"
+            type="password"
             name="password"
             value={this.state.password}
             onChange={this.handleChange}
