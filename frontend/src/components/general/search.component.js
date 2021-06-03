@@ -1,15 +1,16 @@
-import React, { useState, useEffect, useCallback } from "react";
+import React, { useState, useEffect, useCallback, useContext } from "react";
 import Axios from "axios";
 import Tweet from "./tweet.component";
 import Navbar from "./navbar.component";
 import "./search.css";
+import { Ctx } from "../StateProvider";
 
 const axios = Axios.create({
   baseURL: "http://localhost:5000/",
 });
 
 const Search = () => {
-  
+  const { state } = useContext(Ctx);
   const [tag, setTag] = useState("");
   const [tweets, setTweets] = useState([]);
   const [users, setUsers] = useState([]);
@@ -27,12 +28,13 @@ const Search = () => {
 
     setLoading(false);
   };
-  if(localStorage.getItem('userID') == null) {
+  if(!state.user) {
+    console.log('here')
     window.location.replace("http://localhost:3000/login");
     return;
   }
   return (
-    
+
     <div>
       <Navbar />
       <div
@@ -67,6 +69,7 @@ const Search = () => {
         ) : (
           tweets.map((tweet) => (
             <Tweet
+              key={tweet._id}
               cur={{
                 title: tweet.title,
                 body: tweet.body,
@@ -80,13 +83,13 @@ const Search = () => {
 
         {users.length !== 0 ? <a style={{ fontSize: "50px", alignSelf: 'flex-start', marginLeft: '15%', marginBottom: '1%', marginTop: '5%' }}>Users: </a> : <></>}
         {loading ? (
-          <a style={{ fontSize: "25px" }}>Loading...</a>
+          <></>
         ) : (
           users.map((user) => (
             <div style={{display: 'flex', flexDirection: 'column', width: '70%', justifyContent: 'center', marginLeft: '15%', marginRight: '15%', borderRadius: 5, boxShadow: "0px 0px 10px 3px #1f5f84", padding: 10}}>
               <div style={{display: 'flex', flexDirection: 'row', width: '100%', justifyContent: 'space-between', alignItems: 'center'}}>
                 <div style={{fontWeight: 'bold', fontSize: 25}}>{user.username}</div>
-                <div style={{fontSize: 20}}>{user.tweets.length} posts</div>
+                <div style={{fontSize: 20}}>{user.tweets.length} tweets</div>
               </div>
               <div style={{display: 'flex', flexDirection: 'column', width: '100%', marginLeft: '2%'}}>
                 <div style={{fontStyle: 'italic'}}>{Math.floor(Math.random()*100)} followers</div>

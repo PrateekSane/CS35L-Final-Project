@@ -14,7 +14,7 @@ const Navbar = () => {
           </Link>
         </p>
       </div>
-      {localStorage.getItem('userID') ? (
+      {state.user ? (
         <>
           <div className="item">
             <p>
@@ -43,12 +43,10 @@ const Navbar = () => {
                 to="/login"
                 className="navbar-link"
                 onClick={() => {
-                  console.log('here')
                   dispatch({
                     type: "SET_USER",
                     user: null,
                   });
-                  localStorage.removeItem("userID");
                 }}
               >
                 Log Out{" "}

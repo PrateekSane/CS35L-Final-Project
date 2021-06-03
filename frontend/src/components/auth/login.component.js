@@ -43,7 +43,6 @@ export default class Login extends Component {
           type: "SET_USER",
           user: data,
         });
-        localStorage.setItem("userID", data._id);
         this.props.history.push("/");
       }
     } catch (err) {

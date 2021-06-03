@@ -152,7 +152,7 @@ app.post("/likeTweet/:id&:_id", async (req, res) => {
   User.findOneAndUpdate(
     { _id: req.params._id },
     { $push: { likedTweets: req.params.id } }
-    
+
   ).then((user) => res.status(200).json(user))
   .catch((err) => res.status(400).json(err));
 });
@@ -161,7 +161,7 @@ app.post("/unlikeTweet/:id&:_id", async (req, res) => {
   User.findOneAndUpdate(
     { _id: req.params._id },
     { $pull: { likedTweets: req.params.id } }
-    
+
   ).then((user) => res.status(200).json(user))
   .catch((err) => res.status(400).json(err));
 });
@@ -192,7 +192,7 @@ app.post("/shareTweet/:id&:_id", async (req, res) => {
   User.findOneAndUpdate(
     { _id: req.params._id },
     { $push: { sharedTweets: req.params.id } }
-    
+
   ).then((user) => {
     console.log(user);
     res.status(200).json(user);
@@ -204,7 +204,7 @@ app.post("/unshareTweet/:id&:_id", async (req, res) => {
   User.findOneAndUpdate(
     { _id: req.params._id },
     { $pull: { sharedTweets: req.params.id } }
-    
+
   ).then((user) => res.status(200).json(user))
   .catch((err) => res.status(400).json(err));
 });
