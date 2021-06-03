@@ -209,6 +209,57 @@ app.post("/unshareTweet/:id&:_id", async (req, res) => {
   .catch((err) => res.status(400).json(err));
 });
 
+app.put("/follow/:id&:_id", async (req, res) => {
+  if(req.params._id === req.params.id)
+    return res.status(200).json('Cannot follow yourself');
+
+  try {
+    let user = await User.findById(req.params._id);
+    if(user.following.includes(req.params.id))
+      return res.status(200).json('Already following');
+
+    user.following.push(req.params.id);
+    await user.save();
+
+
+    await User.findOneAndUpdate(
+      { _id: req.params.id },
+      { $push: { followers: req.params._id } }
+    );
+
+    res.status(200).json(user);
+  } catch (err) {
+    console.log(err);
+    res.status(400).json(err);
+  }
+})
+
+app.put("/unfollow/:id&:_id", async (req, res) => {
+  if(req.params._id === req.params.id)
+    return res.status(200).json('Cannot unfollow yourself');
+
+  try {
+    let user = await User.findById(req.params._id);
+    if(!user.following.includes(req.params.id))
+      return res.status(200).json('Not following');
+
+    let index = user.following.indexOf(req.params.id);
+    user.following.splice(index);
+    await user.save();
+
+    let other = await User.findById(req.params.id);
+
+    index = other.followers.indexOf(req.params._id);
+    other.followers.splice(index);
+    await other.save();
+
+    res.status(200).json(user);
+  } catch (err) {
+    console.log(err);
+    res.status(400).json(err);
+  }
+})
+
 app.listen(5000, () => {
   console.log("backend connnected to port 5000");
 });

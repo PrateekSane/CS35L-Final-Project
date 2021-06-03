@@ -16,6 +16,15 @@ class CreatePost extends React.Component {
     this.handleChange = this.handleChange.bind(this);
     this.onSubmit = this.onSubmit.bind(this);
   }
+
+  componentDidMount() {
+    console.log(this.context.state.user);
+    if(!this.context.state.user) {
+      window.location.replace("http://localhost:3000/login");
+      return;
+    }
+  }
+
   handleChange(e) {
     const name = e.target.name;
     const value = e.target.value;
@@ -23,6 +32,7 @@ class CreatePost extends React.Component {
       [name]: value,
     });
   }
+
   async makeRequest() {
     const data = {
       title: this.state.title,
@@ -43,10 +53,7 @@ class CreatePost extends React.Component {
   }
 
   render() {
-    if(!this.context.state.user) {
-      window.location.replace("http://localhost:3000/login");
-      return;
-    }
+
     const tagTitles = ["Baseball", "Basketball", "Soccer", "Football"];
     const Tags = tagTitles.map((sport) => {
       let bc = "white",

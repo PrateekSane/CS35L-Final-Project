@@ -16,6 +16,13 @@ const Search = () => {
   const [users, setUsers] = useState([]);
   const [loading, setLoading] = useState(false);
 
+  const handleClick = async(id, following) => {
+    if(!following)
+      await axios.put(`/follow/${id}&${state.user._id}`);
+    else
+      await axios.put(`/unfollow/${id}&${state.user._id}`);
+  }
+
   const changeTag = async (e) => {
     setTag(e.target.value);
 
@@ -28,11 +35,13 @@ const Search = () => {
 
     setLoading(false);
   };
+
   if(!state.user) {
     console.log('here')
     window.location.replace("http://localhost:3000/login");
     return;
   }
+
   return (
 
     <div>
@@ -89,11 +98,12 @@ const Search = () => {
             <div style={{display: 'flex', flexDirection: 'column', width: '70%', justifyContent: 'center', marginLeft: '15%', marginRight: '15%', borderRadius: 5, boxShadow: "0px 0px 10px 3px #1f5f84", padding: 10}}>
               <div style={{display: 'flex', flexDirection: 'row', width: '100%', justifyContent: 'space-between', alignItems: 'center'}}>
                 <div style={{fontWeight: 'bold', fontSize: 25}}>{user.username}</div>
-                <div style={{fontSize: 20}}>{user.tweets.length} tweets</div>
+                {user._id !== state.user._id && <button style={{backgroundColor: '#449bce', borderRadius: 5, fontSize: 20, padding: '3px 10px 3px 10px'}} onClick={() => handleClick(user._id, state.user.following.includes(user._id))}>{state.user.following.includes(user._id) ? "Unfollow" : "Follow"}</button>}
               </div>
               <div style={{display: 'flex', flexDirection: 'column', width: '100%', marginLeft: '2%'}}>
-                <div style={{fontStyle: 'italic'}}>{Math.floor(Math.random()*100)} followers</div>
-                <div style={{fontStyle: 'italic'}}>{Math.floor(Math.random()*100)} following</div>
+                <div style={{fontStyle: 'italic'}}>{user.tweets.length} tweets</div>
+                <div style={{fontStyle: 'italic'}}>{user.followers.length} followers</div>
+                <div style={{fontStyle: 'italic'}}>{user.following.length} following</div>
               </div>
             </div>
           ))
